@@ -4,19 +4,21 @@ set -eu
 
 # Set up .netrc file with GitHub credentials
 git_setup ( ) {
+  ACTOR=${INPUT_GITHUB_LOGIN:-$GITHUB_ACTOR}
+  echo "ACTOR: $ACTOR"
   cat <<- EOF > $HOME/.netrc
         machine github.com
-        login $GITHUB_ACTOR
-        password $GITHUB_TOKEN
+        login $ACTOR
+        password $INPUT_GITHUB_TOKEN
 
         machine api.github.com
-        login $GITHUB_ACTOR
-        password $GITHUB_TOKEN
+        login $ACTOR
+        password $INPUT_GITHUB_TOKEN
 EOF
     chmod 600 $HOME/.netrc
 
-    git config --global user.email "actions@github.com"
-    git config --global user.name "GitHub Actions"
+    git config --global user.email "$INPUT_COMMIT_AUTHOR_EMAIL"
+    git config --global user.name "$INPUT_COMMIT_AUTHOR_NAME"
 }
 
 echo "INPUT_REPOSITORY value: $INPUT_REPOSITORY";
@@ -38,9 +40,11 @@ then
 
     git add "${INPUT_FILE_PATTERN}"
 
+    echo "INPUT_COMMIT_AUTHOR_EMAIL: $INPUT_COMMIT_AUTHOR_EMAIL"
+    echo "INPUT_COMMIT_AUTHOR_NAME: $INPUT_COMMIT_AUTHOR_NAME"
     echo "INPUT_COMMIT_OPTIONS: ${INPUT_COMMIT_OPTIONS}"
 
-    git commit -m "$INPUT_COMMIT_MESSAGE" --author="$GITHUB_ACTOR <$GITHUB_ACTOR@users.noreply.github.com>" ${INPUT_COMMIT_OPTIONS:+"$INPUT_COMMIT_OPTIONS"}
+    git commit -m "$INPUT_COMMIT_MESSAGE" --author="$INPUT_COMMIT_AUTHOR_NAME <$INPUT_COMMIT_AUTHOR_EMAIL>" ${INPUT_COMMIT_OPTIONS:+"$INPUT_COMMIT_OPTIONS"}
 
     git push --set-upstream origin "HEAD:$INPUT_BRANCH"
 else

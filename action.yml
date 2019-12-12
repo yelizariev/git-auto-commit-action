@@ -10,6 +10,12 @@ inputs:
   commit_options:
     description: Commit options
     required: false
+  github_login:
+    description: Github Login
+    required: false
+  github_token:
+    description: Github Token
+    required: true
   branch:
     description: Branch where changes should be pushed too
     required: true
@@ -21,16 +27,18 @@ inputs:
     description: Path to repository
     required: false
     default: '.'
+  commit_author_name:
+    description: Author Name
+    required: false
+    default: Github Actions
+  commit_author_email:
+    description: Author's email
+    required: false
+    default: actions@github.com
 
 runs:
   using: 'docker'
   image: 'Dockerfile'
-  args:
-    - ${{ inputs.commit_message }}
-    - ${{ inputs.commit_options }}
-    - ${{ inputs.branch }}
-    - ${{ inputs.file_pattern }}
-    - ${{ inputs.repository }}
 
 branding:
   icon: 'git-commit'
