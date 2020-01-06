@@ -13,11 +13,11 @@ _git_is_dirty() {
 _setup_git ( ) {
   cat <<- EOF > $HOME/.netrc
         machine github.com
-        login $GITHUB_ACTOR
+        login $INPUT_COMMIT_AUTHOR_EMAIL
         password $INPUT_GITHUB_TOKEN
 
         machine api.github.com
-        login $GITHUB_ACTOR
+        login $INPUT_COMMIT_AUTHOR_EMAIL
         password $INPUT_GITHUB_TOKEN
 EOF
     chmod 600 $HOME/.netrc
