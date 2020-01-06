@@ -40,7 +40,7 @@ _add_files() {
 
 _local_commit() {
     echo "INPUT_COMMIT_OPTIONS: ${INPUT_COMMIT_OPTIONS}"
-    git commit -m "$INPUT_COMMIT_MESSAGE" --author="$INPUT_COMMIT_AUTHOR_NAME <$INPUT_COMMIT_AUTHOR_EMAIL>" ${INPUT_COMMIT_OPTIONS:+"$INPUT_COMMIT_OPTIONS"}
+    git commit -m "$INPUT_COMMIT_MESSAGE" ${INPUT_COMMIT_OPTIONS:+"$INPUT_COMMIT_OPTIONS"}
 }
 
 _push_to_github() {
